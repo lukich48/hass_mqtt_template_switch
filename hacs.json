@@ -1,4 +1,5 @@
 {
   "name": "Mqtt template switch",
   "render_readme": true,
+  "domains": ["switch"]
 }
