@@ -1,3 +1,4 @@
 {
-  "name": "Mqtt template switch"
+  "name": "Mqtt template switch",
+  "render_readme": true,
 }
