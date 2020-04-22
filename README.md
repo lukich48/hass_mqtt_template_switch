@@ -1,0 +1,2 @@
+# hass_mqtt_template_switch
+mqtt_template_switch for homeassistant
