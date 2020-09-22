@@ -1,11 +1,12 @@
 # Mqtt template switch
 
-The component base on a standard mqtt switch and has 2 addition properties:
+The component base on a standard mqtt switch and has 2 additional properties:
 
 ```yaml
 payload_template_on
 payload_template_off
 ```
+Each of them can be used or not.
 
 # Example:
 
