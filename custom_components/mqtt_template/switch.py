@@ -28,14 +28,14 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
     """Set up MQTT switch through configuration.yaml."""
-    await _async_setup_entity(config, async_add_entities, discovery_info)
+    await _async_setup_entity(hass, config, async_add_entities, discovery_info)
 
 
 async def _async_setup_entity(
-    config, async_add_entities, config_entry=None, discovery_data=None
+    hass, config, async_add_entities, config_entry=None, discovery_data=None
 ):
     """Set up the MQTT switch."""
-    async_add_entities([MqttTemplateSwitch(config, config_entry, discovery_data)])
+    async_add_entities([MqttTemplateSwitch(hass, config, config_entry, discovery_data)])
 
 
 class MqttTemplateSwitch(MqttSwitch):
