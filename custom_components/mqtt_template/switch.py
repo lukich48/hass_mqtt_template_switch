@@ -15,16 +15,6 @@ from homeassistant.components.mqtt import CONF_COMMAND_TOPIC
 
 _LOGGER = logging.getLogger(__name__)
 
-CONF_PAYLOAD_TEMPLATE_ON = "payload_template_on"
-CONF_PAYLOAD_TEMPLATE_OFF = "payload_template_off"
-
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
-    {
-        vol.Optional(CONF_PAYLOAD_TEMPLATE_ON): cv.string,
-        vol.Optional(CONF_PAYLOAD_TEMPLATE_OFF): cv.string,
-    }
-)
-
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
     """Set up MQTT switch through configuration.yaml."""
@@ -41,21 +31,25 @@ async def _async_setup_entity(
 class MqttTemplateSwitch(MqttSwitch):
     """Representation of a switch that can be toggled using MQTT."""
 
+    def _setup_from_config(self, config):
+         """(Re)Setup the entity."""
+         MqttSwitch._setup_from_config(self, config)
+
+         self._state_on =  self._get_template_data(self._state_on)
+         self._state_off =  self._get_template_data(self._state_off)
+
+
     async def async_turn_on(self, **kwargs):
         """Turn the device on."""
 
-        if self._config.get(CONF_PAYLOAD_TEMPLATE_ON) is not None:
-            payload = self._get_template_data(self._config[CONF_PAYLOAD_TEMPLATE_ON])
-            self._config[CONF_PAYLOAD_ON] = payload
+        self._config[CONF_PAYLOAD_ON] = self._get_template_data(self._config[CONF_PAYLOAD_ON])
 
         await MqttSwitch.async_turn_on(self, **kwargs)
 
     async def async_turn_off(self, **kwargs):
         """Turn the device off."""
 
-        if self._config.get(CONF_PAYLOAD_TEMPLATE_OFF) is not None:
-            payload = self._get_template_data(self._config[CONF_PAYLOAD_TEMPLATE_OFF])
-            self._config[CONF_PAYLOAD_OFF] = payload
+        self._config[CONF_PAYLOAD_OFF] = self._get_template_data(self._config[CONF_PAYLOAD_OFF])
 
         await MqttSwitch.async_turn_off(self, **kwargs)
 
