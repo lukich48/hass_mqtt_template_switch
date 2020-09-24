@@ -1,12 +1,15 @@
 # Mqtt template switch
 
+Based on standard mqtt switch component with templateble properties:
 The component base on a standard mqtt switch and has 2 additional properties:
 
 ```yaml
-payload_template_on
-payload_template_off
+payload_on
+payload_off
+state_on
+state_off
 ```
-Each of them can be used or not.
+Each of them can contains template
 
 # Example:
 
@@ -16,9 +19,9 @@ switch:
     name: laundry-fan
     state_topic: "home/bathroom/switch/laundry-fan/state"
     command_topic: "home/bathroom/switch/laundry-fan"
-    payload_template_on: '{"action":"hold","duration": {{(states.input_number.fan_duration.state
+    payload_on: '{"action":"hold","duration": {{(states.input_number.fan_duration.state
         | int)*1000}}}'
-    payload_template_off: '{"action":"off"}'
-    state_on: 1
+    payload_off: '{"action":"off"}'
+    state_on: '{{states.input_number.fan_duration.state | int}}'
     state_off: 0
 ```
