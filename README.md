@@ -1,7 +1,6 @@
 # Mqtt template switch
 
 Based on standard mqtt switch component with templateble properties:
-The component base on a standard mqtt switch and has 2 additional properties:
 
 ```yaml
 payload_on
