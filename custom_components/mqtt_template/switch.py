@@ -31,25 +31,19 @@ async def _async_setup_entity(
 class MqttTemplateSwitch(MqttSwitch):
     """Representation of a switch that can be toggled using MQTT."""
 
-    def _setup_from_config(self, config):
-         """(Re)Setup the entity."""
-         MqttSwitch._setup_from_config(self, config)
-
-         self._state_on =  self._get_template_data(self._state_on)
-         self._state_off =  self._get_template_data(self._state_off)
-
-
     async def async_turn_on(self, **kwargs):
         """Turn the device on."""
 
-        self._config[CONF_PAYLOAD_ON] = self._get_template_data(self._config[CONF_PAYLOAD_ON])
+        if isinstance(self._config[CONF_PAYLOAD_ON], str):
+            self._config[CONF_PAYLOAD_ON] = self._get_template_data(self._config[CONF_PAYLOAD_ON])
 
         await MqttSwitch.async_turn_on(self, **kwargs)
 
     async def async_turn_off(self, **kwargs):
         """Turn the device off."""
 
-        self._config[CONF_PAYLOAD_OFF] = self._get_template_data(self._config[CONF_PAYLOAD_OFF])
+        if isinstance(self._config[CONF_PAYLOAD_OFF], str):
+            self._config[CONF_PAYLOAD_OFF] = self._get_template_data(self._config[CONF_PAYLOAD_OFF])
 
         await MqttSwitch.async_turn_off(self, **kwargs)
 
